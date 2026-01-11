@@ -1,63 +1,75 @@
-import Image from "next/image";
+"use client";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { TrendingUp, Users, ShoppingCart, DollarSign, ArrowUpRight } from "lucide-react";
 
-export default function Home() {
+const data = [
+  { name: 'Jan', sales: 4000, users: 2400 },
+  { name: 'Feb', sales: 3000, users: 1398 },
+  { name: 'Mar', sales: 2000, users: 9800 },
+  { name: 'Apr', sales: 2780, users: 3908 },
+  { name: 'May', sales: 1890, users: 4800 },
+  { name: 'Jun', sales: 2390, users: 3800 },
+];
+
+export default function IntelligenceHub() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 p-8">
+      <header className="max-w-7xl mx-auto mb-10">
+        <h1 className="text-3xl font-bold text-teal-500">VENTUREMOND</h1>
+        <p className="text-zinc-500 text-sm">Intelligence Hub & Business Analytics</p>
+      </header>
+
+      <main className="max-w-7xl mx-auto space-y-8">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { label: "Total Revenue", val: "$45,231", icon: <DollarSign className="text-green-500" /> },
+            { label: "Active Users", val: "+2,350", icon: <Users className="text-blue-500" /> },
+            { label: "Sales Growth", val: "+12.5%", icon: <TrendingUp className="text-teal-500" /> },
+            { label: "Orders", val: "1,203", icon: <ShoppingCart className="text-purple-500" /> },
+          ].map((stat, i) => (
+            <div key={i} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg">{stat.icon}</div>
+                <ArrowUpRight size={16} className="text-zinc-400" />
+              </div>
+              <p className="text-sm text-zinc-500">{stat.label}</p>
+              <h3 className="text-2xl font-bold mt-1">{stat.val}</h3>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <h3 className="mb-6 font-semibold">Revenue Analytics (Monthly)</h3>
+            <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={data}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" />
+                  <XAxis dataKey="name" stroke="#888" fontSize={12} />
+                  <YAxis stroke="#888" fontSize={12} />
+                  <Tooltip contentStyle={{backgroundColor: '#111', border: 'none'}} />
+                  <Bar dataKey="sales" fill="#14b8a6" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <h3 className="mb-6 font-semibold">User Acquisition Trend</h3>
+            <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={data}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" />
+                  <XAxis dataKey="name" stroke="#888" fontSize={12} />
+                  <YAxis stroke="#888" fontSize={12} />
+                  <Tooltip contentStyle={{backgroundColor: '#111', border: 'none'}} />
+                  <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </div>
       </main>
     </div>
